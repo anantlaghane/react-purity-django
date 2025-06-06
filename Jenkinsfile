@@ -51,7 +51,11 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                sh 'kubectl apply -f k8s/'
+                sh '''
+        kubectl config current-context   //Shows the current Kubernetes context (i.e., which cluster and namespace your kubectl is connected to).
+        kubectl get nodes   //Lists all the nodes in your Kubernetes cluster.
+        kubectl apply -f k8s/
+        '''
             }
         }
     }
