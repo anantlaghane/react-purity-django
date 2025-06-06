@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('docker')  // Jenkins credentials
+        DOCKERHUB_USERNAME = 'anantlaghane'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/anantlaghane/react-purity-django.git'
+            }
+        }
+
+        stage('Build Frontend Image') {
+            steps {
+                dir('frontend') {
+                    sh 'docker build -t $DOCKERHUB_USERNAME/react-frontend:latest .'
+                }
+            }
+        }
+
+        stage('Build Backend Image') {
+            steps {
+                dir('backend') {
+                    sh 'docker build -t $DOCKERHUB_USERNAME/django-backend:latest .'
+                }
+            }
+        }
+
+        stage('Push Images to Docker Hub') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh '''
+                    echo "$PASSWORD" | docker login -u "$USERNAME" --password-stdin
+                    docker push $DOCKERHUB_USERNAME/react-frontend:latest
+                    docker push $DOCKERHUB_USERNAME/django-backend:latest
+                    '''
+                }
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                sh 'kubectl apply -f k8s/'
+            }
+        }
+    }
+}
