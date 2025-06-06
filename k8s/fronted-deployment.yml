@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: your-dockerhub-username/react-frontend:latest
+        image: anantlaghane/react-frontend:latest
         ports:
         - containerPort: 3000
 ---

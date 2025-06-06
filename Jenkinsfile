@@ -23,7 +23,7 @@ pipeline {
         stage('Build Frontend Image') {
             steps {
                 dir('frontend') {
-                    sh 'docker build -t $DOCKERHUB_USERNAME/react-frontend:latest .'
+                    sh 'docker build -t $anantlaghane/react-frontend:latest .'
                 }
             }
         }
