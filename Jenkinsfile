@@ -9,7 +9,14 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/anantlaghane/react-purity-django.git'
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/anantlaghane/react-purity-django.git',
+                        credentialsId: 'Git'
+                    ]]
+                ])
             }
         }
 
