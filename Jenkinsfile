@@ -39,7 +39,7 @@ pipeline {
 
         stage('Push Images to Docker Hub') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'anantlaghane', passwordVariable: 'PASSWORD')]) {
                     sh '''
                     echo "$PASSWORD" | docker login -u "$USERNAME" --password-stdin
                     docker push $DOCKERHUB_USERNAME/react-frontend:latest
