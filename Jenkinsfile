@@ -23,11 +23,7 @@ pipeline {
         stage('Build Frontend Image') {
             steps {
                dir('react-ui') {
-                     sh '''
-                     docker build -t anantlaghane/react-frontend:latest .
-                     echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
-                     docker push anantlaghane/react-frontend:latest
-                     '''
+                     sh 'docker build -t $DOCKERHUB_USERNAME/react-frontend:latest .'
                  }
             }
         }
@@ -41,17 +37,17 @@ pipeline {
             }
         }
 
-        // stage('Push Images to Docker Hub') {
-        //     steps {
-        //         withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-        //             sh '''
-        //             echo "$PASSWORD" | docker login -u "$USERNAME" --password-stdin
-        //             docker push $DOCKERHUB_USERNAME/react-frontend:latest
-        //             docker push $DOCKERHUB_USERNAME/django-backend:latest
-        //             '''
-        //         }
-        //     }
-        // }
+        stage('Push Images to Docker Hub') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh '''
+                    echo "$PASSWORD" | docker login -u "$USERNAME" --password-stdin
+                    docker push $DOCKERHUB_USERNAME/react-frontend:latest
+                    docker push $DOCKERHUB_USERNAME/django-backend:latest
+                    '''
+                }
+            }
+        }
 
         // stage('Deploy to Kubernetes') {
         //     steps {
