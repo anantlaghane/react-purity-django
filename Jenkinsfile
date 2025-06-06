@@ -22,7 +22,7 @@ pipeline {
 
         stage('Build Frontend Image') {
             steps {
-               dir('react-ui/frontend') {
+               dir('react-ui') {
                      sh '''
                      docker build -t anantlaghane/react-frontend:latest .
                      echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
