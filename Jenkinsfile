@@ -33,13 +33,13 @@ pipeline {
         }
 
 
-        // stage('Build Backend Image') {
-        //     steps {
-        //         dir('backend') {
-        //             sh 'docker build -t $DOCKERHUB_USERNAME/django-backend:latest .'
-        //         }
-        //     }
-        // }
+        stage('Build Backend Image') {
+            steps {
+                dir('api-server-django') {
+                    sh 'docker build -t $anantlaghane/django-backend:latest .'
+                }
+            }
+        }
 
         // stage('Push Images to Docker Hub') {
         //     steps {
