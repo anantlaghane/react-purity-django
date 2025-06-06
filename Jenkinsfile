@@ -36,7 +36,7 @@ pipeline {
         stage('Build Backend Image') {
             steps {
                 dir('api-server-django') {
-                    sh 'docker build -t $anantlaghane/django-backend:latest .'
+                    sh 'docker build -t $DOCKERHUB_USERNAME/django-backend:latest .'
                 }
             }
         }
