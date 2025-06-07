@@ -1,4 +1,4 @@
-@Library('Shared')     // <-- Shared library function call
+@Library('Shared') _    // <-- Shared library function call
 
 pipeline {
     agent any
