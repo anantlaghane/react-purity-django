@@ -1,3 +1,5 @@
+@Library('Shared')     // <-- Shared library function call
+
 pipeline {
     agent any
 
@@ -57,6 +59,15 @@ pipeline {
         kubectl apply -f k8s/
         '''
             }
+        }
+    }
+
+      post {
+        success {
+            notifyBuild('SUCCESS')   // <-- Shared library function call
+        }
+        failure {
+            notifyBuild('FAILURE')   // <-- Shared library function call
         }
     }
 }
